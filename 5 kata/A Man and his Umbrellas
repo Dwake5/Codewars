@@ -1,0 +1,55 @@
+Each morning a man walks to work, and each afternoon he walks back home.
+
+If it is raining in the morning and he has an umbrella at home, he takes an umbrella for the journey so he doesn't get wet,
+and stores it at work. Likewise, if it is raining in the afternoon and he has an umbrella at work,
+he takes an umbrella for the journey home.
+
+Given an array of the weather conditions, your task is to work out the minimum number of umbrellas he needs
+to start with in order that he never gets wet. He can start with some umbrellas at home and some at work,
+but the output is a single integer, the minimum total number.
+
+The input is an array/list of consecutive half-day weather forecasts. 
+So, e.g. the first value is the 1st day's morning weather and the second value is the 1st day's afternoon weather.
+The options are "clear", "sunny", "cloudy", "rainy", "windy" or "thunderstorms".
+
+Thunderstorms also count as rainy.
+
+
+const minUmbrellas = weather => {
+  if (weather.length % 2 != 0) return 0
+  
+  weather = weather.map(el => el == 'thunderstorms' ? el = 'rainy' : el)
+  console.log(weather)
+  let purchased = 0
+  let atWork = 0
+  let atHome = 0
+  
+  for (i = 0; i < weather.length; i++) {
+    if( i % 2 == 0 ) {
+      if(weather[i] == 'rainy'){
+        if (atHome > 0) {
+          atHome--
+          atWork++
+        } else {
+          purchased++
+          atWork++
+        }
+      }
+    }
+    
+    if ( i % 2 != 0) {
+      if(weather[i] == 'rainy'){
+        if( atWork > 0){
+          atWork--
+          atHome++
+        } else {
+          purchased++
+          atHome++
+        }
+      }
+    }
+
+  }
+
+  return purchased
+}
